@@ -3,7 +3,10 @@
 `notify-broadcast` can send broadcst notifications via `notify-send` to all 
 users on a desktop session
 
-It utilizes `notify-send` and DBUS for this.
+It utilizes `notify-send` and DBUS for this and should be usable with most 
+freedesktop implementations that can display `notify-send` notifications.
+Please note that _the author only uses GNOME_ though and does not guarantee
+this to work in any other DE.
 
 ## Installation
 
