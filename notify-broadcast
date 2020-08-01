@@ -20,6 +20,10 @@ syntax(){
   echo
   notify-send --help | sed s/-send/-broadcast/g 
 }
+DEBUG=false
+debug(){
+  $DEBUG && echo "$@" || true
+}
 
 [ $# -gt 0 ] && [ "$1" = "--help" ] && syntax && exit 0
 [ $# -lt 1 ] && 
@@ -47,8 +51,8 @@ do
 
   ## run notify-send with the correct user
   echo Sending: $USR $ADDR
-  echo DBUS_SESSION_BUS_ADDRESS="$ADDR" sudo -u $USR -E notify-send "$@"
-  echo
+  debug DBUS_SESSION_BUS_ADDRESS="$ADDR" sudo -u $USR -E notify-send "$@"
+  debug
   DBUS_SESSION_BUS_ADDRESS="$ADDR" sudo -u $USR -E notify-send "$@"
 
 done
