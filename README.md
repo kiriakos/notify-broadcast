@@ -12,11 +12,22 @@ Just copy the notify-broadcast into root's path.
 ## Usage
 
 `notify-broadcast` is a wrapper around `notify-send` and passes arguments 
-trasparently to itso it can be used  options
-```
-# notify-broadcast MESSAGE
+trasparently to iti so it can be used  options
 
-# ./notify-broadcast 
+Syntax:
+```bash
+# notify-broadcast MESSAGE
+```
+
+Send a, critical urgency, "This is the ENDDD" notifications to everybody with a
+devil face as icon.
+```bash
+# notify-broadcast -i face-devilish-symbolic -u critical "This is the ENDDD"
+```
+
+Help:
+```bash
+# ./notify-broadcast  --help
 ./notify-broadcast needs at least a message.
 For a full API description see notify-send
 Usage:
@@ -42,7 +53,8 @@ Application Options:
 The script is dependent on DBUS and the system having notify-send and a desktop
 environment.
 
-The used executables are `sed`, `who`, `cut`, `xargs`, `strings`, `grep` and of course `notify-send`
+The used executables are `sed`, `who`, `cut`, `xargs`, `strings`, `grep` and of
+course `notify-send`
 
 ## Packages
 

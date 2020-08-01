@@ -13,9 +13,18 @@ set -u
 ## NOTE: please debug the notifications you want to send via 'notify-send'
 ##       for a faster iteration cycle
 
+syntax(){
+  echo `basename $0` - The desktop notification broadcaster
+  echo
+  echo "  NOTE: Please debug your invocations by using 'notify-send' first."
+  echo
+  notify-send --help | sed s/-send/-broadcast/g 
+}
+
+[ $# -gt 0 ] && [ "$1" = "--help" ] && syntax && exit 0
 [ $# -lt 1 ] && 
-  echo $0 needs at least a message. && 
-  notify-send --help | sed s/-send/-broadcast/g && 
+  echo -e "\nERROR: $0 needs at least a MESSAGE argument\n\n" && 
+  syntax && 
   exit 1
   
 
