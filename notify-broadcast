@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+set -u
+
+# Wrapper of notify-send
+#
+# Same api as `notify-send' but sends a message from a systemd serivce to all users
+# Loosely based on: https://unix.stackexchange.com/questions/492622
+#
+
+##
+## NOTE: please debug the notifications you want to send via 'notify-send'
+##       for a faster iteration cycle
+
+[ $# -lt 1 ] && 
+  echo $0 needs at least a message. && 
+  notify-send --help | sed s/-send/-broadcast/g && 
+  exit 1
+  
+
+LOGINS=`who | cut -f1 -d" "`
+
+for USR in $LOGINS
+do
+
+  PS=`who -u -p | grep $USR |xargs | cut -d" " -f 6`
+  CMD_FILE=/proc/${PS}/cmdline
+  ENV_FILE=/proc/${PS}/environ
+
+  [ -f $CMD_FILE ] && CMD=`strings $CMD_FILE`
+  [ -f $ENV_FILE ] && CNV=`strings $ENV_FILE`
+
+  # If no DBUS variable set ignore this process
+  echo "$CNV" | grep DBUS_SESSION_BUS_ADDRESS >/dev/null || continue
+
+  ADDR=`echo "$CNV" | grep 'DBUS_SESSION_BUS_ADDRESS=' | cut -d= -f2-`
+
+  ## run notify-send with the correct user
+  echo Sending: $USR $ADDR
+  echo DBUS_SESSION_BUS_ADDRESS="$ADDR" sudo -u $USR -E notify-send "$@"
+  echo
+  DBUS_SESSION_BUS_ADDRESS="$ADDR" sudo -u $USR -E notify-send "$@"
+
+done
+
