@@ -61,5 +61,5 @@ course `notify-send`
 
 ## Packages
 
-AUR: tbd
+AUR: [](https://aur.archlinux.org/packages/notify-broadcast-git/)
 
