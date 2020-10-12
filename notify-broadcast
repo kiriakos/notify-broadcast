@@ -32,7 +32,7 @@ debug(){
   exit 1
   
 
-LOGINS=`who | cut -f1 -d" "`
+LOGINS=`who | cut -f1 -d" " | uniq`
 
 for USR in $LOGINS
 do
